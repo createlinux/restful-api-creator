@@ -1,0 +1,19 @@
+{
+    "name": "createlinux/restful-api-creator",
+    "autoload": {
+        "psr-4": {
+            "Createlinux\\RestfulApiCreator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "孟小成",
+            "email": "howmao@qq.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^8.83",
+        "illuminate/collections": "^8.83"
+    }
+}
