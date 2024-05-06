@@ -11,10 +11,11 @@ class Restful
     private string $pluralResourceName;
     private string $prefix;
     private string $version;
-    private Collection $apis;
     private Collection $supportMethods;
+    private string $identify;
+    private string $resourceLabel;
 
-    public function __construct(string $resourceName, string $prefix = 'api', string $version = 'v1')
+    public function __construct(string $resourceName, string $resourceLabel, string $identify = 'id', string $prefix = 'api', string $version = 'v1')
     {
         //TODO 把create改成创建新对象
 
@@ -22,8 +23,9 @@ class Restful
         $this->pluralResourceName = $this->toSnakePlural();
         $this->prefix = $prefix;
         $this->version = $version;
-        $this->apis = new Collection();
         $this->supportMethods = new Collection();
+        $this->identify = $identify;
+        $this->resourceLabel = $resourceLabel;
     }
 
     public function getResourceName(): string
@@ -31,7 +33,7 @@ class Restful
         return $this->resourceName;
     }
 
-    protected function createApi(string $path)
+    protected function createApiPath(string $path)
     {
         $apiLines = [];
         if ($this->getPrefix()) {
@@ -48,36 +50,37 @@ class Restful
         return Str::plural(Str::snake($this->resourceName, "_"));
     }
 
-    public function getPostApiPath()
+    public function createPost()
     {
-        return $this->createApi($this->getPluralResourceName());
+        $post = new HttpMethod('post', 'store', "创建");
+        $post->setPath($this->createApiPath($this->toSnakePlural()));
+        $this->supportMethods->put('store', $post);
+        return $post;
     }
 
-    public function getDeletePath(string $identify = 'id')
+    public function createShow()
     {
-        return $this->createApi($this->getPluralResourceName() . "/{{$identify}}");
+        $get = new HttpMethod('get', 'show', "详情");
+        $get->setPath($this->createApiPath($this->toSnakePlural()) . "/{{$this->getIdentify()}}");
+
+        $this->supportMethods->put('show', $get);
+        return $get;
     }
 
-    public function getIndexApiPath(array $queries = [])
+    public function createDestroy()
     {
-        $query = $queries ? "?" . http_build_query($queries) : "";
-        return $this->createApi($this->getPluralResourceName() . $query);
+        $method = new HttpMethod('delete', 'destroy', "删除");
+        $method->setPath($this->createApiPath($this->toSnakePlural()) . "/{{$this->getIdentify()}}");
+        $this->supportMethods->put('destroy', $method);
+        return $method;
     }
 
-    public function getSingleApiPath(string $identify = 'id')
+    public function createIndex()
     {
-        return $this->createApi($this->getPluralResourceName() . "/{{$identify}}");
-    }
-
-
-    public function getUpdateApiPath(string $identify = 'id')
-    {
-        return $this->createApi($this->getPluralResourceName() . "/{{$identify}}");
-    }
-
-    public function getPatchApiPath(string $identify = 'id')
-    {
-        return $this->createApi($this->getPluralResourceName() . "/{{$identify}}");
+        $method = new HttpMethod('get', 'index', "索引");
+        $method->setPath($this->createApiPath($this->toSnakePlural()));
+        $this->supportMethods->put('index', $method);
+        return $method;
     }
 
     public function getPrefix(): string
@@ -95,13 +98,31 @@ class Restful
         return $this->pluralResourceName;
     }
 
-    public function getApis(): Collection
-    {
-        return $this->apis;
-    }
-
     public function getSupportMethods(): Collection
     {
         return $this->supportMethods;
+    }
+
+    public function getIdentify(): string
+    {
+        return $this->identify;
+    }
+
+    public function toArray()
+    {
+        $support_methods = [];
+        foreach ($this->getSupportMethods() as $supportMethod) {
+            $support_methods[] = $supportMethod->getDocArray();
+        }
+        return [
+            'resourceName' => $this->getResourceName(),
+            'resourceLabel' => $this->getResourceLabel(),
+            'support_methods' => $support_methods
+        ];
+    }
+
+    public function getResourceLabel(): string
+    {
+        return $this->resourceLabel;
     }
 }

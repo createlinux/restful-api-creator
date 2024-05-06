@@ -20,4 +20,7 @@ class JsonDocument
     }
 
     //TODO 生成json文档
+    public function getAll()
+    {
+    }
 }
