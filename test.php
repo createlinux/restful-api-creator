@@ -5,8 +5,8 @@ use \Createlinux\RestfulApiCreator\JsonDocument;
 use Createlinux\RestfulApiCreator\DataType;
 
 $restful = new \Createlinux\RestfulApiCreator\Restful('user', "用户");
-$index = $restful->createIndex();
 
+$index = $restful->createIndex();
 $index->addQuery('搜索', 'search', DataType::string)
     ->setDescription("输入关键词搜索");
 
@@ -25,6 +25,8 @@ $store->addBodyItem("first_name", "名", DataType::string);
 $store->addBodyItem("status", "状态", DataType::string, "draft")
     ->addOptionalValue("draft", "草稿")
     ->addOptionalValue("publish", "发布");
+
+$show = $restful->createShow();
 
 print_r($restful->toArray());
 

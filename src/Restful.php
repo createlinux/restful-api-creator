@@ -75,6 +75,22 @@ class Restful
         return $method;
     }
 
+    public function createUpdate()
+    {
+        $method = new HttpMethod('put', 'update', "更新");
+        $method->setPath($this->createApiPath($this->toSnakePlural()) . "/{{$this->getIdentify()}}");
+        $this->supportMethods->put('update', $method);
+        return $method;
+    }
+
+    public function createPatch()
+    {
+        $method = new HttpMethod('patch', 'patch', "补丁");
+        $method->setPath($this->createApiPath($this->toSnakePlural()) . "/{{$this->getIdentify()}}");
+        $this->supportMethods->put('patch', $method);
+        return $method;
+    }
+
     public function createIndex()
     {
         $method = new HttpMethod('get', 'index', "索引");
