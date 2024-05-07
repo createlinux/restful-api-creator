@@ -1,6 +1,6 @@
 <?php
 
-namespace Createlinux\RestfulApiCreator;
+namespace Createlinux\RestfulApiCreator\enums;
 
 enum DataType
 {

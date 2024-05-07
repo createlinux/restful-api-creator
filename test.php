@@ -1,8 +1,7 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 
-use \Createlinux\RestfulApiCreator\JsonDocument;
-use Createlinux\RestfulApiCreator\DataType;
+use Createlinux\RestfulApiCreator\enums\DataType;
 
 $restful = new \Createlinux\RestfulApiCreator\Restful('user', "用户");
 
@@ -11,12 +10,13 @@ $index->addQuery('搜索', 'search', DataType::string)
     ->setDescription("输入关键词搜索");
 
 $index->addQuery('格式', 'format', DataType::string, 'list')
+    ->setIsRequired(1)
     ->setDescription("根据不同参数返回不同的格式")
     ->addOptionalValue("tree", "格式化为树形格式")
     ->addOptionalValue("list", "返回列表格式");
 
 
-$store = $restful->createPost();
+$store = $restful->createStore();
 $store->addQuery("令牌", 'access_token', DataType::string)
     ->setDescription("访问令牌");
 
@@ -28,6 +28,9 @@ $store->addBodyItem("status", "状态", DataType::string, "draft")
 
 $show = $restful->createShow();
 
-print_r($restful->toArray());
+
+$restful->createCustom(\Createlinux\RestfulApiCreator\enums\HttpMethodType::get,"comments","自定义方法");
+
+echo json_encode($restful->toArray());
 
 

@@ -2,6 +2,7 @@
 
 namespace Createlinux\RestfulApiCreator;
 
+use Createlinux\RestfulApiCreator\enums\DataType;
 use Illuminate\Support\Collection;
 
 class HttpMethodQuery
@@ -12,6 +13,7 @@ class HttpMethodQuery
     private string $defaultValue;
     private Collection $optionalValues;
     private string $description = '';
+    private int $isRequired = 0;
 
     /**
      * @param string $label 名称
@@ -70,4 +72,17 @@ class HttpMethodQuery
     {
         return $this->description;
     }
+
+    public function setIsRequired(int $isRequired): HttpMethodQuery
+    {
+        $this->isRequired = $isRequired;
+        return $this;
+    }
+
+    public function getIsRequired(): int
+    {
+        return $this->isRequired;
+    }
+
+
 }

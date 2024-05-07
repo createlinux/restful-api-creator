@@ -2,6 +2,7 @@
 
 namespace Createlinux\RestfulApiCreator;
 
+use Createlinux\RestfulApiCreator\enums\HttpMethodType;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -50,9 +51,9 @@ class Restful
         return Str::plural(Str::snake($this->resourceName, "_"));
     }
 
-    public function createPost()
+    public function createStore()
     {
-        $post = new HttpMethod('post', 'store', "创建");
+        $post = new HttpMethod(HttpMethodType::post, 'store', "创建");
         $post->setPath($this->createApiPath($this->toSnakePlural()));
         $this->supportMethods->put('store', $post);
         return $post;
@@ -60,7 +61,7 @@ class Restful
 
     public function createShow()
     {
-        $get = new HttpMethod('get', 'show', "详情");
+        $get = new HttpMethod(HttpMethodType::get, 'show', "详情");
         $get->setPath($this->createApiPath($this->toSnakePlural()) . "/{{$this->getIdentify()}}");
 
         $this->supportMethods->put('show', $get);
@@ -69,7 +70,7 @@ class Restful
 
     public function createDestroy()
     {
-        $method = new HttpMethod('delete', 'destroy', "删除");
+        $method = new HttpMethod(HttpMethodType::delete, 'destroy', "删除");
         $method->setPath($this->createApiPath($this->toSnakePlural()) . "/{{$this->getIdentify()}}");
         $this->supportMethods->put('destroy', $method);
         return $method;
@@ -77,7 +78,7 @@ class Restful
 
     public function createUpdate()
     {
-        $method = new HttpMethod('put', 'update', "更新");
+        $method = new HttpMethod(HttpMethodType::put, 'update', "更新");
         $method->setPath($this->createApiPath($this->toSnakePlural()) . "/{{$this->getIdentify()}}");
         $this->supportMethods->put('update', $method);
         return $method;
@@ -85,7 +86,7 @@ class Restful
 
     public function createPatch()
     {
-        $method = new HttpMethod('patch', 'patch', "补丁");
+        $method = new HttpMethod(HttpMethodType::patch, 'patch', "补丁");
         $method->setPath($this->createApiPath($this->toSnakePlural()) . "/{{$this->getIdentify()}}");
         $this->supportMethods->put('patch', $method);
         return $method;
@@ -93,9 +94,17 @@ class Restful
 
     public function createIndex()
     {
-        $method = new HttpMethod('get', 'index', "索引");
+        $method = new HttpMethod(HttpMethodType::get, 'index', "索引");
         $method->setPath($this->createApiPath($this->toSnakePlural()));
         $this->supportMethods->put('index', $method);
+        return $method;
+    }
+
+    public function createCustom(HttpMethodType $httpMethod, string $methodName, string $methodLabel)
+    {
+        $method = new HttpMethod($httpMethod, $methodName, $methodLabel);
+        $method->setPath($this->createApiPath($this->toSnakePlural() . "/" . $methodName));
+        $this->supportMethods->put($methodName, $method);
         return $method;
     }
 
