@@ -99,6 +99,7 @@ class HttpMethod
             }
             $queryArray[] = [
                 'name' => $query->getName(),
+                'isRequired' => $query->getIsRequired(),
                 'defaultValue' => $query->getDefaultValue(),
                 'dataType' => $query->getDataType(),
                 'description' => $query->getDescription(),
