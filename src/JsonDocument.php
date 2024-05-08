@@ -6,15 +6,15 @@ class JsonDocument
 {
 
 
-    private Restful $restful;
+    private Resource $restful;
 
-    public function __construct(Restful $restful)
+    public function __construct(Resource $restful)
     {
 
         $this->restful = $restful;
     }
 
-    public function getRestful(): Restful
+    public function getRestful(): Resource
     {
         return $this->restful;
     }

@@ -3,9 +3,10 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Createlinux\RestfulApiCreator\enums\DataType;
 
-$restful = new \Createlinux\RestfulApiCreator\Restful('user', "用户");
+$restful = new \Createlinux\RestfulApiCreator\Restful();
 
-$index = $restful->createIndex();
+$user = $restful->createResource('user',"用户");
+$index = $user->createIndex();
 $index->addQuery('搜索', 'search', DataType::string)
     ->setDescription("输入关键词搜索");
 
@@ -16,7 +17,7 @@ $index->addQuery('格式', 'format', DataType::string, 'list')
     ->addOptionalValue("list", "返回列表格式");
 
 
-$store = $restful->createStore();
+$store = $user->createStore();
 $store->addQuery("令牌", 'access_token', DataType::string)
     ->setDescription("访问令牌");
 
@@ -26,10 +27,10 @@ $store->addBodyItem("status", "状态", DataType::string, "draft")
     ->addOptionalValue("draft", "草稿")
     ->addOptionalValue("publish", "发布");
 
-$show = $restful->createShow();
+$show = $user->createShow();
 
 
-$restful->createCustom(\Createlinux\RestfulApiCreator\enums\HttpMethodType::get,"comments","自定义方法");
+$user->createCustom(\Createlinux\RestfulApiCreator\enums\HttpMethodType::get,"UsersComments","自定义方法");
 
 echo json_encode($restful->toArray());
 

@@ -77,16 +77,16 @@
         },
         {
             "name": "createlinux/standard-object-name",
-            "version": "v1.0.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/createlinux/standard-object-name.git",
-                "reference": "73b7c9ea24654156bc8551defc644b9b2697ec53"
+                "reference": "20d93902d95ae0254abf12274872d4572787bb7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/createlinux/standard-object-name/zipball/73b7c9ea24654156bc8551defc644b9b2697ec53",
-                "reference": "73b7c9ea24654156bc8551defc644b9b2697ec53",
+                "url": "https://api.github.com/repos/createlinux/standard-object-name/zipball/20d93902d95ae0254abf12274872d4572787bb7a",
+                "reference": "20d93902d95ae0254abf12274872d4572787bb7a",
                 "shasum": ""
             },
             "require": {
@@ -111,9 +111,9 @@
             ],
             "support": {
                 "issues": "https://github.com/createlinux/standard-object-name/issues",
-                "source": "https://github.com/createlinux/standard-object-name/tree/v1.0.0"
+                "source": "https://github.com/createlinux/standard-object-name/tree/v1.1.1"
             },
-            "time": "2024-04-30T08:22:59+00:00"
+            "time": "2024-05-08T01:31:53+00:00"
         },
         {
             "name": "doctrine/inflector",

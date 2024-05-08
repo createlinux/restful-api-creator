@@ -5,6 +5,7 @@ namespace Createlinux\RestfulApiCreator;
 use Createlinux\RestfulApiCreator\enums\DataType;
 use Createlinux\RestfulApiCreator\enums\HttpMethodType;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class HttpMethod
 {
@@ -15,17 +16,26 @@ class HttpMethod
     private string $methodName;
     protected Collection $queries;
     protected Collection $bodyItems;
+    private string $resourceName;
 
-    public function __construct(HttpMethodType $httpMethod, string $methodName, string $label)
+    public function __construct(string $resourceName, HttpMethodType $httpMethod, string $methodName, string $label)
     {
 
         $this->httpMethod = $httpMethod;
         $this->queries = new Collection();
         $this->bodyItems = new Collection();
-        $this->methodName = $methodName;
+        $this->methodName = $this->renameMethodName($methodName);
         $this->label = $label;
+        $this->resourceName = to_standard_object_name($resourceName);
     }
 
+    protected function renameMethodName(string $methodName)
+    {
+        if(in_array($methodName,['show','store','index','destroy','update','patch'])){
+            return $methodName;
+        }
+        return lcfirst(Str::plural(to_standard_object_name($methodName)));
+    }
 
     public function getPath(): string
     {
@@ -117,6 +127,7 @@ class HttpMethod
         return [
             'httpMethod' => $this->getHttpMethod()->name,
             'methodName' => $this->getMethodName(),
+            'methodAlias' => "{$this->getResourceName()}.{$this->getMethodName()}",
             'label' => $this->getLabel(),
             'path' => $this->getPath(),
             'queries' => $queryArray,
@@ -132,5 +143,10 @@ class HttpMethod
     public function getBodyItems(): Collection
     {
         return $this->bodyItems;
+    }
+
+    public function getResourceName(): string
+    {
+        return $this->resourceName;
     }
 }
