@@ -30,7 +30,7 @@ $store->addBodyItem("status", "状态", DataType::string, "draft")
 $show = $user->createShow();
 
 
-$user->createCustom(\Createlinux\RestfulApiCreator\enums\HttpMethodType::get,"UsersComments","自定义方法");
+$user->createCustom(\Createlinux\RestfulApiCreator\enums\RequestMethod::get,"UsersComments","自定义方法");
 
 echo json_encode($restful->toArray());
 

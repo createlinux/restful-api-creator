@@ -2,7 +2,7 @@
 
 namespace Createlinux\RestfulApiCreator;
 
-use Createlinux\RestfulApiCreator\enums\HttpMethodType;
+use Createlinux\RestfulApiCreator\enums\RequestMethod;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -62,7 +62,7 @@ class Resource
 
     public function createStore()
     {
-        $post = new HttpMethod($this->getResourceName(), HttpMethodType::post, 'store', "创建");
+        $post = new HttpMethod($this->getResourceName(), RequestMethod::post, 'store', "创建");
         $post->setPath($this->createApiPath($this->toSnakePlural()));
         $this->supportMethods->put('store', $post);
         return $post;
@@ -70,7 +70,7 @@ class Resource
 
     public function createShow()
     {
-        $get = new HttpMethod($this->getResourceName(), HttpMethodType::get, 'show', "详情");
+        $get = new HttpMethod($this->getResourceName(), RequestMethod::get, 'show', "详情");
         $get->setPath($this->createApiPath($this->toSnakePlural()) . "/{{$this->getIdentify()}}");
 
         $this->supportMethods->put('show', $get);
@@ -79,7 +79,7 @@ class Resource
 
     public function createDestroy()
     {
-        $method = new HttpMethod($this->getResourceName(), HttpMethodType::delete, 'destroy', "删除");
+        $method = new HttpMethod($this->getResourceName(), RequestMethod::delete, 'destroy', "删除");
         $method->setPath($this->createApiPath($this->toSnakePlural()) . "/{{$this->getIdentify()}}");
         $this->supportMethods->put('destroy', $method);
         return $method;
@@ -87,7 +87,7 @@ class Resource
 
     public function createUpdate()
     {
-        $method = new HttpMethod($this->getResourceName(), HttpMethodType::put, 'update', "更新");
+        $method = new HttpMethod($this->getResourceName(), RequestMethod::put, 'update', "更新");
         $method->setPath($this->createApiPath($this->toSnakePlural()) . "/{{$this->getIdentify()}}");
         $this->supportMethods->put('update', $method);
         return $method;
@@ -95,7 +95,7 @@ class Resource
 
     public function createPatch()
     {
-        $method = new HttpMethod($this->getResourceName(), HttpMethodType::patch, 'patch', "补丁");
+        $method = new HttpMethod($this->getResourceName(), RequestMethod::patch, 'patch', "补丁");
         $method->setPath($this->createApiPath($this->toSnakePlural()) . "/{{$this->getIdentify()}}");
         $this->supportMethods->put('patch', $method);
         return $method;
@@ -103,13 +103,13 @@ class Resource
 
     public function createIndex()
     {
-        $method = new HttpMethod($this->getResourceName(), HttpMethodType::get, 'index', "索引");
+        $method = new HttpMethod($this->getResourceName(), RequestMethod::get, 'index', "索引");
         $method->setPath($this->createApiPath($this->toSnakePlural()));
         $this->supportMethods->put('index', $method);
         return $method;
     }
 
-    public function createCustom(HttpMethodType $httpMethod, string $methodName, string $methodLabel)
+    public function createCustom(RequestMethod $httpMethod, string $methodName, string $methodLabel)
     {
         $method = new HttpMethod($this->getResourceName(), $httpMethod, $methodName, $methodLabel);
         $methodPath = to_snake_plural(to_standard_object_name($methodName));

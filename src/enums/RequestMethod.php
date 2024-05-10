@@ -3,7 +3,7 @@
 namespace Createlinux\RestfulApiCreator\enums;
 
 
-enum HttpMethodType
+enum RequestMethod
 {
     case get;
     case post;

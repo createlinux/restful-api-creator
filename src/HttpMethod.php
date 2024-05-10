@@ -3,7 +3,7 @@
 namespace Createlinux\RestfulApiCreator;
 
 use Createlinux\RestfulApiCreator\enums\DataType;
-use Createlinux\RestfulApiCreator\enums\HttpMethodType;
+use Createlinux\RestfulApiCreator\enums\RequestMethod;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -12,16 +12,16 @@ class HttpMethod
 
     protected string $path = '';
     private string $label = '';
-    private HttpMethodType $httpMethod;
+    private RequestMethod $httpMethod;
     private string $methodName;
     protected Collection $queries;
     protected Collection $bodyItems;
     private string $resourceName;
 
-    public function __construct(string $resourceName, HttpMethodType $httpMethod, string $methodName, string $label)
+    public function __construct(string $resourceName, RequestMethod $requestMethod, string $methodName, string $label)
     {
 
-        $this->httpMethod = $httpMethod;
+        $this->httpMethod = $requestMethod;
         $this->queries = new Collection();
         $this->bodyItems = new Collection();
         $this->methodName = $this->renameMethodName($methodName);
@@ -56,7 +56,7 @@ class HttpMethod
         $this->path = $path;
     }
 
-    public function getHttpMethod(): HttpMethodType
+    public function getHttpMethod(): RequestMethod
     {
         return $this->httpMethod;
     }
