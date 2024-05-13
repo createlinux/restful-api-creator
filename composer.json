@@ -19,8 +19,8 @@
   "require": {
     "php": "^8.2",
     "illuminate/collections": "*",
-    "createlinux/standard-object-name": "^1.0",
-    "illuminate/support": "^8.83"
+    "createlinux/standard-object-name": "^2.0",
+    "illuminate/support": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "^11.1"
